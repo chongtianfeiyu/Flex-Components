@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SkinnablePopUpContainer skinClass="common.widgets.buttonbox.skins.ButtonBoxSkinImpl"
+		xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		width="{_width}"
+		height="{_height}" 
+		mouseDownOutside="mouseDownOutsideHandler(event)">
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.IList;
+			import mx.core.FlexGlobals;
+			import mx.events.FlexMouseEvent;
+			
+			import spark.components.Button;
+			import spark.components.Label;
+			import spark.components.List;
+			import spark.events.IndexChangeEvent;
+			
+			[SkinPart(required="true")]
+			public var _optionsList:List;
+			
+			[SkinPart(required="true")]
+			public var _title:Label;
+			[Bindable]
+			private var _width:Number=FlexGlobals.topLevelApplication.width * 0.9;;
+			[Bindable]
+			private var _height:Number=FlexGlobals.topLevelApplication.height * 0.6;
+			[Bindable]
+			private var _dp:IList;
+			
+			[Bindable]
+			private var _selected:Object;
+			
+			[Bindable]
+			private var _selectedIndex:int;
+			
+			public function get dataProvider() : IList {
+				return _dp;
+			}
+			
+			public function set dataProvider(value:IList) : void {
+				_dp = value;
+				_optionsList.dataProvider = _dp;
+				_optionsList.addEventListener( IndexChangeEvent.CHANGE, setField, false, 0, true );
+			}
+			
+			
+			public function get selectedIndex() : int {
+				return _selectedIndex;
+			}
+			
+			
+			public function get selectedItem() : Object {
+				return _selected;
+			}
+			
+			private function setField(e:IndexChangeEvent) : void {
+				_selected = _optionsList.selectedItem;
+				_selectedIndex = _optionsList.selectedIndex;
+			}
+
+			protected function mouseDownOutsideHandler(event:FlexMouseEvent):void
+			{
+				this.close()
+				
+			}
+			
+		]]>
+	</fx:Script>
+</s:SkinnablePopUpContainer>
